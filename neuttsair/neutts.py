@@ -404,7 +404,7 @@ class NeuTTSAir:
         watermarked_wav = self.watermarker.apply_watermark(wav, sample_rate=24_000)
 
         return watermarked_wav
-    
+
     def infer_stream(self, text: str, ref_codes: np.ndarray | torch.Tensor, ref_text: str) -> Generator[np.ndarray, None, None]:
         """
         Perform streaming inference to generate speech from text using the TTS model and reference audio.
@@ -415,7 +415,7 @@ class NeuTTSAir:
             ref_text (str): Reference text for reference audio. Defaults to None.
         Yields:
             np.ndarray: Generated speech waveform.
-        """ 
+        """
 
         if self._is_quantized_model:
             return self._infer_stream_ggml(ref_codes, ref_text, text)
@@ -510,7 +510,7 @@ class NeuTTSAir:
             output_tokens[0, input_length:].cpu().numpy().tolist(), add_special_tokens=False
         )
         return output_str
-    
+
     def _infer_ggml(self, ref_codes: list[int], ref_text: str, input_text: str) -> str:
         ref_text = self._to_phones(ref_text)
         input_text = self._to_phones(input_text)
@@ -601,13 +601,13 @@ class NeuTTSAir:
         if len(token_cache) > n_decoded_tokens:
             tokens_start = max(
                 len(token_cache)
-                - (self.streaming_lookback + self.streaming_overlap_frames + remaining_tokens), 
+                - (self.streaming_lookback + self.streaming_overlap_frames + remaining_tokens),
                 0
             )
             sample_start = (
-                len(token_cache) 
-                - tokens_start 
-                - remaining_tokens 
+                len(token_cache)
+                - tokens_start
+                - remaining_tokens
                 - self.streaming_overlap_frames
             ) * self.hop_length
             curr_codes = token_cache[tokens_start:]
